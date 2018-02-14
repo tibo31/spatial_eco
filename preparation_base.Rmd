@@ -461,7 +461,7 @@ In this section, we are going to use the following two methods :
 * DAW : Areal weighting interpolation,
 * DAX : Ordinary dasymetric weighting.
 
-The programs are given at this link [AIM.R]("AIM.R")
+The programs are given at this link [AIM.R](AIM.R)
 
 ```{r}
 source("AIM.R")
