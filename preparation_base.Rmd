@@ -1,9 +1,9 @@
 ---
 title: "How to explain voting in 2015 for populist radical right in some parts of France? A spatial econometric approach"
 author: "Thibault Laurent and Christine Thomas-Agnan"
-date: "14 February of 2018"
+date: "14 February of 2018 (changes made in February 2019)"
 output:
-  pdf_document:
+  html_document:
     highlight: tango
     number_sections: yes
     toc: yes
@@ -166,6 +166,15 @@ We check that the number of polling place in the city chosen is the same than in
 nrow(sample_2015_T1_bv) == nrow(bv_sample)
 ```
 
+We change the name of some variables:
+
+```{r}
+ind_BC <- grep("BC", names(sample_2015_T1_bv))
+names(sample_2015_T1_bv)[ind_BC] <- sapply(strsplit(names(sample_2015_T1_bv)[ind_BC], "-"), 
+                                           function(x) paste(x, collapse = "_"))
+```
+
+
 ### Merging
 
 We now merge the geographical data with the election data.
@@ -188,29 +197,25 @@ We create the total number of voters by summing the results obtained by each par
 ```{r}
 bv_sample$nb_voters <- bv_sample %>% 
   st_set_geometry(NULL) %>% 
-  select(contains("BC.")) %>% 
+  select(contains("BC_")) %>% 
   rowSums(na.rm = TRUE)
 ```
 
 **Important remark :** the list of the parties observed in one city is unique. Indeed, even if the main parties are usually represented in the biggest cities, it usually happens that local parties have candidates. 
 
-We create the percentage of radical right votes :
+We create the percentage of radical right votes and the percentage of turnout
 
 ```{r}
-bv_sample$taux_fn <- bv_sample$BC.FN/bv_sample$nb_voters*100
+bv_sample <- bv_sample %>%
+  mutate(taux_fn = BC_FN / nb_voters * 100,
+         turnout = (1 - nb_voters / NBRINS) * 100)
 ```
 
-We also create the percentage of turnout  :
-
-```{r}
-bv_sample$turnout <- (1 - bv_sample$nb_voters/bv_sample$NBRINS)*100
-```
 
 At this step, we have created these following variables  :
 
 * **taux_fn**: the depend variable,
 * **turnout**: the percentage of turnout.
-
 
 ```{r, echo = F, eval = F}
 save(bv_sample, file = "bv_sample.RData")
