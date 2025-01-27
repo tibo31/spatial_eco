@@ -1,14 +1,3 @@
-#'
-#' @author Lukas Dargel, modified by Thibault Laurent
-#'
-#' @param X a numeric vector
-#' @param geo a list of polygon geographies
-#' @param my_listw a listw object
-#' @param X_name a character indicating the name of X
-#' @param only_scatter a logical if `TRUE` only the scatter plot is shown
-#' @param only_mapa a logical if `TRUE` only the map is shown
-#'
-#' @return a ggplot graphic
 moran_scatter_plot <- function(
     X,
     geo,
@@ -77,7 +66,6 @@ moran_scatter_plot <- function(
 }
 
 
-#' @author Lukas Dargel
 themeLCD <- function(b_size = 15) {
   theme_bw(base_size = b_size) %+replace%
     theme(
@@ -93,7 +81,6 @@ themeLCD <- function(b_size = 15) {
     )
 }
 
-#' @author Lukas Dargel
 theme_map <- function(b_size = 15, ...) {
   theme_bw(base_size = b_size) %+replace%
     theme(
